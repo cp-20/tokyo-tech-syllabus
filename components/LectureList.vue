@@ -45,14 +45,14 @@ const openDialogHandler = (lecture: Lecture) => {
     <div v-if="error">
       <p class="text-red-500 font-bold">講義の取得中に何らかのエラーが発生しました</p>
     </div>
-    <div v-if="lectures" class="relative pb-8">
+    <div class="relative pb-8">
       <div v-if="loading" class="absolute inset-0 bg-white/60 z-10"></div>
-      <div v-if="lectures.length === 0 && !loading">該当する講義は見つかりませんでした</div>
+      <div v-if="lectures.length === 0 && !loading && !error">該当する講義は見つかりませんでした</div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <LectureListItem v-for="lecture in lectures" :key="`${lecture.id}`" :lecture="lecture"
           @open-dialog="openDialogHandler" />
       </div>
-      <div v-if="!finished" ref="skeletons" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      <div v-if="!finished && !error" ref="skeletons" class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         <Skeleton v-for="_ in new Array(20)" height="8rem" />
       </div>
     </div>
