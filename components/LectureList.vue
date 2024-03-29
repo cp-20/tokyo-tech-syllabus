@@ -14,11 +14,7 @@ const skeletons = ref<HTMLDivElement>();
 onMounted(() => {
   const observer = new IntersectionObserver(
     (entries) => {
-      const firstEntry = entries[0];
-      if (firstEntry.isIntersecting) {
-        console.log(firstEntry);
-        loadNext();
-      }
+      if (entries[0].isIntersecting) loadNext();
     },
     {
       root: document,
