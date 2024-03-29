@@ -4,10 +4,6 @@ import type { SearchQuery } from '../schema/searchQuery';
 
 const searchQuery = ref<SearchQuery>({});
 
-watch(searchQuery, (newVal) => {
-  console.log(newVal);
-});
-
 </script>
 
 <template>

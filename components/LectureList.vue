@@ -5,10 +5,6 @@ const props = defineProps<{ query: SearchQuery }>();
 const query = computed(() => props.query);
 const { lectures, finished, loading, error, loadNext } = useLectureList(query);
 
-watch(lectures, () => {
-  console.log(lectures.value.map((l => ({ title: l.title, id: l.id }))));
-})
-
 const skeletons = ref<HTMLDivElement>();
 
 onMounted(() => {
