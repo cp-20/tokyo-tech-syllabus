@@ -1,0 +1,48 @@
+{
+  "name": "tokyo-tech-syllabus",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "db:generate": "drizzle-kit generate:sqlite --out migrations --schema database/schema.ts",
+    "db:dev:migrate": "wrangler d1 migrations apply tokyo-tech-syllabus --local",
+    "db:prod:migrate": "wrangler d1 migrations apply tokyo-tech-syllabus --remote",
+    "db:migration:dev": "bun db:generate && bun db:dev:migrate",
+    "db:migration:prod": "bun db:generate && bun db:prod:migrate",
+    "scraper:start": "bun run scraper/main.ts",
+    "registerer:start": "wrangler dev registerer/main.ts --port 33576",
+    "registerer:register": "bun run registerer/register.ts",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "bun run build && wrangler pages dev ./dist",
+    "postinstall": "nuxt prepare",
+    "deploy": "bun run build && wrangler pages deploy ./dist",
+    "build-cf-types": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240320.1",
+    "@types/bun": "latest",
+    "@types/html-minifier": "^4.0.5",
+    "@types/jsdom": "^21.1.6",
+    "better-sqlite3": "^9.4.3",
+    "drizzle-kit": "^0.20.14",
+    "nitro-cloudflare-dev": "^0.1.4",
+    "nuxt-primevue": "^0.3.1",
+    "typescript": "^5.3.2",
+    "wrangler": "^3.39.0"
+  },
+  "dependencies": {
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@nuxtjs/tailwindcss": "^6.11.4",
+    "bun-kv": "github:redraskal/bun-kv#main",
+    "drizzle-orm": "^0.29.4",
+    "hono": "^3.12.12",
+    "html-minifier": "^4.0.0",
+    "jsdom": "^24.0.0",
+    "nuxt": "^3.11.1",
+    "primevue": "^3.50.0",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "zod": "^3.22.4"
+  }
+}
