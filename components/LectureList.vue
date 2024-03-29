@@ -17,9 +17,7 @@ onMounted(() => {
       if (entries[0].isIntersecting) loadNext();
     },
     {
-      root: document,
-      threshold: 0,
-      rootMargin: "0px",
+      root: document, threshold: 0, rootMargin: "-120px",
     }
   );
   if (skeletons.value) {
