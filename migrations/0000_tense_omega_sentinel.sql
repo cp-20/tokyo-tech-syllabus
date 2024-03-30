@@ -35,8 +35,9 @@ CREATE TABLE `teachers` (
 	`url` text NOT NULL
 );
 --> statement-breakpoint
+CREATE INDEX `lecture_id_in_period_idx` ON `lecture_periods` (`lecture_id`);--> statement-breakpoint
 CREATE INDEX `period_idx` ON `lecture_periods` (`period`);--> statement-breakpoint
 CREATE UNIQUE INDEX `lectures_url_unique` ON `lectures` (`url`);--> statement-breakpoint
-CREATE INDEX `place_idx` ON `lectures` (`place_type`,`place_value`);--> statement-breakpoint
-CREATE INDEX `year_idx` ON `lectures` (`year`);--> statement-breakpoint
-CREATE INDEX `language_idx` ON `lectures` (`language`);
+CREATE INDEX `code_grade_idx` ON `lectures` (`code_grade`,`code_value`);--> statement-breakpoint
+CREATE INDEX `lecture_id_in_assignment_idx` ON `teacher_assignment` (`lecture_id`);--> statement-breakpoint
+CREATE INDEX `teacher_id_idx` ON `teacher_assignment` (`teacher_id`);

@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "b82bb36f-36f6-4bcc-bfd4-8d418d1d38f6",
+  "id": "2e159560-4054-4c41-8c77-8b186009bbd5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "lecture_periods": {
@@ -30,6 +30,13 @@
         }
       },
       "indexes": {
+        "lecture_id_in_period_idx": {
+          "name": "lecture_id_in_period_idx",
+          "columns": [
+            "lecture_id"
+          ],
+          "isUnique": false
+        },
         "period_idx": {
           "name": "period_idx",
           "columns": [
@@ -160,25 +167,11 @@
           ],
           "isUnique": true
         },
-        "place_idx": {
-          "name": "place_idx",
+        "code_grade_idx": {
+          "name": "code_grade_idx",
           "columns": [
-            "place_type",
-            "place_value"
-          ],
-          "isUnique": false
-        },
-        "year_idx": {
-          "name": "year_idx",
-          "columns": [
-            "year"
-          ],
-          "isUnique": false
-        },
-        "language_idx": {
-          "name": "language_idx",
-          "columns": [
-            "language"
+            "code_grade",
+            "code_value"
           ],
           "isUnique": false
         }
@@ -205,7 +198,22 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "lecture_id_in_assignment_idx": {
+          "name": "lecture_id_in_assignment_idx",
+          "columns": [
+            "lecture_id"
+          ],
+          "isUnique": false
+        },
+        "teacher_id_idx": {
+          "name": "teacher_id_idx",
+          "columns": [
+            "teacher_id"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {
         "teacher_assignment_lecture_id_lectures_id_fk": {
           "name": "teacher_assignment_lecture_id_lectures_id_fk",
