@@ -5,11 +5,13 @@ import { enumerate } from '../utils/enumerate';
 
 const main = async () => {
   await fetch('http://localhost:33576', { method: 'DELETE' });
+  await Bun.sleep(1000);
+  await fetch('http://localhost:33576/initialize', { method: 'POST' });
 
   const textLectures = await Bun.file('scraper/assets/lectures.json').text();
   const rawLectures = JSON.parse(textLectures);
   const lectures = z.array(LectureSchema).parse(rawLectures);
-  const chunks = chunkArray(lectures, 1);
+  const chunks = chunkArray(lectures, 100);
 
   for (const [i, chunk] of enumerate(chunks)) {
     const res = await fetch('http://localhost:33576', {

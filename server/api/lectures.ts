@@ -1,4 +1,4 @@
-import { and, eq, inArray, like } from 'drizzle-orm';
+import { and, eq, inArray, like, sql } from 'drizzle-orm';
 import { getDB, tables } from '~/database';
 import {
   Grade,
@@ -9,8 +9,6 @@ import {
   offsetSchema,
 } from '~/schema/searchQuery';
 
-const queryByTitle = (title: string) =>
-  like(tables.lectures.title, `%${title}%`);
 const queryByCodeGrade = (codeGrades: Grade[]) =>
   inArray(tables.lectures.codeGrade, codeGrades);
 const queryByCode = (code: string) => eq(tables.lectures.codeGrade, code);
@@ -55,11 +53,19 @@ export default defineEventHandler(async (event) => {
       .offset(offset);
 
     const conditions = [
-      query.title && queryByTitle(query.title),
       query.code && queryByCode(query.code),
       query.codeGrades && queryByCodeGrade(query.codeGrades),
       query.quarters && queryByQuarter(query.quarters),
     ];
+
+    if (query.title) {
+      lecturesQuery = lecturesQuery.innerJoin(
+        sql`lecture_titles`,
+        eq(tables.lectures.id, sql`lecture_titles.id`)
+      );
+      const spacedTitle = query.title.split('').join(' ');
+      conditions.push(sql`lecture_titles.title MATCH ${`"${spacedTitle}"`}`);
+    }
 
     if (query.periods && query.periods.length > 0) {
       lecturesQuery = lecturesQuery.innerJoin(
@@ -78,10 +84,11 @@ export default defineEventHandler(async (event) => {
           eq(tables.lectures.id, tables.teacherAssignment.lectureId)
         )
         .innerJoin(
-          tables.teachers,
-          eq(tables.teacherAssignment.teacherId, tables.teachers.id)
+          sql`teacher_names`,
+          eq(tables.teacherAssignment.teacherId, sql`teacher_names.id`)
         );
-      conditions.push(like(tables.teachers.name, `%${query.teacher}%`));
+      const spacedTeacher = query.teacher.split('').join(' ');
+      conditions.push(sql`teachers.name MATCH ${`"${spacedTeacher}"`}`);
     }
 
     const enhancedLecturesQuery = lecturesQuery.where(andOrNothing(conditions));

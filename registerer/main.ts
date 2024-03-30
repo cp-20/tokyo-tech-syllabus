@@ -1,4 +1,4 @@
-import { deleteAll, loadTeachers, registerDatabase } from './registerer';
+import { deleteAll, initialize, registerDatabase } from './registerer';
 import { getDB } from '../database';
 import { LectureSchema } from '../scraper/schema';
 import { z } from 'zod';
@@ -13,12 +13,14 @@ export default {
     env: Env,
     ctx: ExecutionContext
   ): Promise<Response> {
+    const path = new URL(req.url).pathname;
+
     const db = getDB(env.DB);
-    if (req.method === 'GET') {
+    if (req.method === 'GET' && path === '/') {
       return Response.json({ lecture: await db.query.lectures.findFirst() });
     }
 
-    if (req.method === 'POST') {
+    if (req.method === 'POST' && path === '/') {
       const rawLectures = await req.json();
       const lectures = z.array(LectureSchema).parse(rawLectures);
 
@@ -33,10 +35,19 @@ export default {
       }
     }
 
-    if (req.method === 'DELETE') {
+    if (req.method === 'DELETE' && path === '/') {
       try {
-        // await deleteAll(db);
-        await loadTeachers(db);
+        await deleteAll(db);
+        return Response.json({ success: true });
+      } catch (err) {
+        console.error(err);
+        return Response.json({ success: false });
+      }
+    }
+
+    if (req.method === 'POST' && path === '/initialize') {
+      try {
+        await initialize(db);
         return Response.json({ success: true });
       } catch (err) {
         console.error(err);

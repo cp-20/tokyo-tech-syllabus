@@ -24,9 +24,7 @@ export const lectures = sqliteTable(
     language: text('language').notNull(),
   },
   (t) => ({
-    placeIndex: index('place_idx').on(t.placeType, t.placeValue),
-    yearIndex: index('year_idx').on(t.year),
-    languageIndex: index('language_idx').on(t.language),
+    codeGradeIndex: index('code_grade_idx').on(t.codeGrade, t.codeValue),
   })
 );
 
@@ -46,6 +44,7 @@ export const lecturePeriods = sqliteTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.lectureId, t.period] }),
+    lectureIdIndex: index('lecture_id_in_period_idx').on(t.lectureId),
     timeIndex: index('period_idx').on(t.period),
   })
 );
@@ -76,5 +75,7 @@ export const teacherAssignment = sqliteTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.lectureId, t.teacherId] }),
+    lectureIdIndex: index('lecture_id_in_assignment_idx').on(t.lectureId),
+    teacherIdIndex: index('teacher_id_idx').on(t.teacherId),
   })
 );
