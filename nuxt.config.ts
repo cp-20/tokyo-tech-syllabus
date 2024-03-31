@@ -59,6 +59,13 @@ export default defineNuxtConfig({
         },
         { rel: 'manifest', href: '/manifest.webmanifest' },
       ],
+      script: [
+        process.env.CLOUDFLARE_BEACON && {
+          src: 'https://static.cloudflareinsights.com/beacon.min.js',
+          defer: true,
+          'data-cf-beacon': `{"token": "${process.env.CLOUDFLARE_BEACON}"}`,
+        },
+      ].filter(Boolean),
     },
   },
   devtools: { enabled: true },
