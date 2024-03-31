@@ -16,13 +16,13 @@ const emit = defineEmits<{
 const lectureTitle = ref<string>(props.modelValue?.title ?? '');
 const setTitle = debounce((newVal: string, query: SearchQuery) => {
   emit('update:modelValue', { ...query, title: newVal || undefined });
-}, 1000);
+}, 500);
 watch(lectureTitle, (newVal) => setTitle(newVal, props.modelValue));
 
 const teacherName = ref<string>(props.modelValue?.teacher ?? '');
 const setTeacher = debounce((newVal: string, query: SearchQuery) => {
   emit('update:modelValue', { ...query, teacher: newVal || undefined });
-}, 1000);
+}, 500);
 watch(teacherName, (newVal) => setTeacher(newVal, props.modelValue));
 
 const selectedGrades = ref<string[]>(props.modelValue?.codeGrades ?? []);
