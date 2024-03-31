@@ -1,4 +1,4 @@
-import { and, eq, inArray, like, sql } from 'drizzle-orm';
+import { and, eq, inArray, sql } from 'drizzle-orm';
 import { getDB, tables } from '~/database';
 import {
   Grade,
@@ -134,6 +134,11 @@ export default defineEventHandler(async (event) => {
           url: teacher.url,
         })),
     }));
+
+    setResponseHeaders(event, {
+      'Cache-Control': 'public, max-age=2419200, stale-while-revalidate=604800',
+    });
+
     return {
       lectures: enhancedLectures.slice(0, limit),
       finished: enhancedLectures.length <= limit,
