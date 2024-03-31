@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import type { SearchQuery } from '../schema/searchQuery';
 
 const searchQuery = ref<SearchQuery>({});
