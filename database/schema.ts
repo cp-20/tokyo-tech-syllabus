@@ -25,6 +25,7 @@ export const lectures = sqliteTable(
   },
   (t) => ({
     codeGradeIndex: index('code_grade_idx').on(t.codeGrade, t.codeValue),
+    originIndex: index('origin_idx').on(t.origin),
   })
 );
 

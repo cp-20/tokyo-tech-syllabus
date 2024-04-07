@@ -81,6 +81,7 @@ export const searchQuerySchema = z
     codeGrades: z.array(z.enum(grades)).min(1),
     code: z.string(),
     quarters: z.array(z.enum(quarters)).min(1),
+    origin: z.string(),
   })
   .partial();
 

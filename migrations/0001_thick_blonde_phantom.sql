@@ -1,0 +1,1 @@
+CREATE INDEX `origin_idx` ON `lectures` (`origin`);

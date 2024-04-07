@@ -14,6 +14,7 @@ const queryByCodeGrade = (codeGrades: Grade[]) =>
 const queryByCode = (code: string) => eq(tables.lectures.codeGrade, code);
 const queryByQuarter = (quarters: Quarter[]) =>
   inArray(tables.lectures.quarter, quarters);
+const queryByOrigin = (origin: string) => eq(tables.lectures.origin, origin);
 
 const andOrNothing = (
   conditions: (Parameters<typeof and>[0] | undefined | '')[]
@@ -56,6 +57,7 @@ export default defineEventHandler(async (event) => {
       query.code && queryByCode(query.code),
       query.codeGrades && queryByCodeGrade(query.codeGrades),
       query.quarters && queryByQuarter(query.quarters),
+      query.origin && queryByOrigin(query.origin),
     ];
 
     if (query.title) {

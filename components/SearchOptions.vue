@@ -4,6 +4,69 @@ import InputText from 'primevue/inputtext';
 
 const days = ['月', '火', '水', '木', '金', '土', '日'];
 const periods = ['1-2', '3-4', '5-6', '7-8', '9-10', '11-12'];
+const origins = ref([
+  '数学系',
+  '生命理工学コース',
+  '物理学系',
+  '電気電子コース',
+  '材料コース',
+  '数学コース',
+  '応用化学コース',
+  '物理学コース',
+  '化学系',
+  '機械コース',
+  '地球環境共創コース',
+  '原子核工学コース',
+  '地球惑星科学系',
+  '知能情報コース',
+  '化学コース',
+  '理学院',
+  '地球惑星科学コース',
+  'エネルギーコース',
+  '地球生命コース',
+  '経営工学系',
+  '技術経営専門職学位課程',
+  'ライフエンジニアリングコース',
+  '経営工学コース',
+  '情報通信コース',
+  'システム制御コース',
+  '情報通信系',
+  '社会・人間科学コース',
+  'エンジニアリングデザインコース',
+  '工学院，物質理工学院，環境・社会理工学院共通科目',
+  '機械系',
+  '電気電子系',
+  'システム制御系',
+  '融合理工学系',
+  '数理・計算科学コース',
+  '工学院',
+  '材料系',
+  '応用化学系',
+  '物質理工学院',
+  '数理・計算科学系',
+  '情報工学系',
+  '情報工学コース',
+  '情報理工学院',
+  '生命理工学系',
+  '生命理工学院',
+  '土木・環境工学系',
+  '建築学系',
+  '建築学コース',
+  '都市・環境学コース',
+  '土木工学コース',
+  '環境・社会理工学院',
+  'イノベーション科学コース',
+  '文系教養科目',
+  'データサイエンス・AI全学教育機構',
+  'アントレプレナーシップ科目',
+  '理工系教養科目',
+  '日本語・日本文化科目',
+  '広域教養科目',
+  '教職科目',
+  '英語科目',
+  'リーダーシップ教育課程',
+  '第二外国語科目'
+])
 
 const props = defineProps<{
   modelValue: SearchQuery
@@ -24,6 +87,16 @@ const setTeacher = debounce((newVal: string, query: SearchQuery) => {
   emit('update:modelValue', { ...query, teacher: newVal || undefined });
 }, 500);
 watch(teacherName, (newVal) => setTeacher(newVal, props.modelValue));
+
+const origin = ref<string>(props.modelValue?.origin ?? '');
+const setOrigin = debounce((newVal: string, query: SearchQuery) => {
+  emit('update:modelValue', { ...query, origin: newVal || undefined });
+}, 500);
+watch(origin, (newVal) => setOrigin(newVal, props.modelValue));
+const searchWithOrigin = (e: { query: string }) => {
+  origins.value = origins.value.filter((origin) => origin.includes(e.query));
+  emit('update:modelValue', { ...props.modelValue, origin: e.query || undefined });
+};
 
 const selectedGrades = ref<string[]>(props.modelValue?.codeGrades ?? []);
 watch(selectedGrades, (newVal) => {
@@ -55,6 +128,15 @@ watch(selectedPeriods, (newVal) => {
       <div class="flex flex-col gap-1">
         <label class="text-sm font-bold" for="teacher-name">教員名</label>
         <InputText id="teacher-name" type="text" v-model="teacherName" />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-bold" for="origin">開講元</label>
+        <AutoComplete id="origin" v-model="origin" :suggestions="origins" @complete="searchWithOrigin" class="w-full"
+          dropdown :pt="{ input: { class: 'w-full' } }" />
+      </div>
+
+      <div>
+
       </div>
       <div class="flex">
         <div class="flex flex-col gap-1 flex-1 flex-grow-[2]">
