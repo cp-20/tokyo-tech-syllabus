@@ -30,7 +30,7 @@ const insertLecture = async (db: Database, lecture: Lecture) => {
 
   const spacedTitle = lecture.title.split('').join(' ');
   await db.run(
-    sql`INSERT INTO lecture_titles (id, title) VALUES (${lectureId}, ${spacedTitle})`
+    sql`INSERT INTO lecture_titles (id, title) VALUES (${lectureId}, ${spacedTitle})`,
   );
 
   const teacherIdPromises = lecture.teachers.map(async (teacher) => {
@@ -47,7 +47,7 @@ const insertLecture = async (db: Database, lecture: Lecture) => {
       .returning({ id: tables.teachers.id });
     const spacedName = teacher.name.split('').join(' ');
     await db.run(
-      sql`INSERT INTO teacher_names (id, name) VALUES (${newTeacherId}, ${spacedName})`
+      sql`INSERT INTO teacher_names (id, name) VALUES (${newTeacherId}, ${spacedName})`,
     );
     teachers.set(key, newTeacherId);
     return newTeacherId;
@@ -75,7 +75,7 @@ const insertLecture = async (db: Database, lecture: Lecture) => {
         teacherIdsChunk.map((teacherId) => ({
           lectureId,
           teacherId,
-        }))
+        })),
       );
     }
   }
@@ -102,7 +102,7 @@ export const initialize = async (db: Database) => {
 
   await db.run(sql`DROP TABLE IF EXISTS lecture_titles;`);
   await db.run(
-    sql`CREATE VIRTUAL TABLE lecture_titles USING fts5( id, title );`
+    sql`CREATE VIRTUAL TABLE lecture_titles USING fts5( id, title );`,
   );
   await db.run(sql`DROP TABLE IF EXISTS teacher_names;`);
   await db.run(sql`CREATE VIRTUAL TABLE teacher_names USING fts5( id, name );`);

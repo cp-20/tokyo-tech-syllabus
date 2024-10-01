@@ -5,7 +5,7 @@ export const fetchLectureList = async (url: string) => {
   const document = parseHTML(html);
 
   const lectureLinkElements = Array.from(
-    document.querySelectorAll('.ranking-list tbody tr .course_title a')
+    document.querySelectorAll('.ranking-list tbody tr .course_title a'),
   );
 
   return lectureLinkElements

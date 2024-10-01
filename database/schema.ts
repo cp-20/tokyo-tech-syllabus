@@ -26,7 +26,7 @@ export const lectures = sqliteTable(
   (t) => ({
     codeGradeIndex: index('code_grade_idx').on(t.codeGrade, t.codeValue),
     originIndex: index('origin_idx').on(t.origin),
-  })
+  }),
 );
 
 export const lecturesRelation = relations(lectures, ({ many }) => ({
@@ -47,7 +47,7 @@ export const lecturePeriods = sqliteTable(
     pk: primaryKey({ columns: [t.lectureId, t.period] }),
     lectureIdIndex: index('lecture_id_in_period_idx').on(t.lectureId),
     timeIndex: index('period_idx').on(t.period),
-  })
+  }),
 );
 
 export const lecturePeriodsRelation = relations(lecturePeriods, ({ one }) => ({
@@ -78,5 +78,5 @@ export const teacherAssignment = sqliteTable(
     pk: primaryKey({ columns: [t.lectureId, t.teacherId] }),
     lectureIdIndex: index('lecture_id_in_assignment_idx').on(t.lectureId),
     teacherIdIndex: index('teacher_id_idx').on(t.teacherId),
-  })
+  }),
 );

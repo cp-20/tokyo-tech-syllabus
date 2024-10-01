@@ -17,9 +17,11 @@
     "preview": "bun run build && wrangler pages dev ./dist",
     "postinstall": "nuxt prepare",
     "deploy": "bun run build && wrangler pages deploy ./dist",
-    "build-cf-types": "wrangler types"
+    "build-cf-types": "wrangler types",
+    "format": "biome format --write ./**/*.{vue,ts,js,json}"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.3",
     "@cloudflare/workers-types": "^4.20240320.1",
     "@types/bun": "latest",
     "@types/html-minifier": "^4.0.5",

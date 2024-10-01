@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import type { SearchQuery } from '../schema/searchQuery';
 
 const searchQuery = ref<SearchQuery>({});
-
 </script>
 
 <template>

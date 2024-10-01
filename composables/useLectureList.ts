@@ -43,7 +43,7 @@ export const useLectureList = (query: Ref<SearchQuery>) => {
         loading.value = false;
       }
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   const loadNext = async () => {

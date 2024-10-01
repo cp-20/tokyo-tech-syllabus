@@ -10,7 +10,7 @@ const periodsFormatter = (periods: string[]) => {
     }
   }
   return periods;
-}
+};
 
 const props = defineProps<{ lecture: Lecture }>();
 

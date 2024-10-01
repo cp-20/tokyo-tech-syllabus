@@ -49,7 +49,7 @@ export const parseLecturePlace = (place: string): LecturePlace => {
     const periods = places
       .map((place) => {
         const match = place.match(
-          /(月|火|水|木|金|土)(\d\d?)-(\d\d?)(?:\((.+)\))?/
+          /(月|火|水|木|金|土)(\d\d?)-(\d\d?)(?:\((.+)\))?/,
         );
         if (match === null) return null;
 

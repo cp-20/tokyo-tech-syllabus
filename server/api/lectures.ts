@@ -17,7 +17,7 @@ const queryByQuarter = (quarters: Quarter[]) =>
 const queryByOrigin = (origin: string) => eq(tables.lectures.origin, origin);
 
 const andOrNothing = (
-  conditions: (Parameters<typeof and>[0] | undefined | '')[]
+  conditions: (Parameters<typeof and>[0] | undefined | '')[],
 ) => and(...(conditions.filter((x) => x) as Parameters<typeof and>));
 
 export default defineEventHandler(async (event) => {
@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
     if (query.title) {
       lecturesQuery = lecturesQuery.innerJoin(
         sql`lecture_titles`,
-        eq(tables.lectures.id, sql`lecture_titles.id`)
+        eq(tables.lectures.id, sql`lecture_titles.id`),
       );
       const spacedTitle = query.title.split('').join(' ');
       conditions.push(sql`lecture_titles.title MATCH ${`"${spacedTitle}"`}`);
@@ -72,10 +72,10 @@ export default defineEventHandler(async (event) => {
     if (query.periods && query.periods.length > 0) {
       lecturesQuery = lecturesQuery.innerJoin(
         tables.lecturePeriods,
-        eq(tables.lectures.id, tables.lecturePeriods.lectureId)
+        eq(tables.lectures.id, tables.lecturePeriods.lectureId),
       );
       conditions.push(
-        inArray(tables.lecturePeriods.period, expandPeriodQuery(query.periods))
+        inArray(tables.lecturePeriods.period, expandPeriodQuery(query.periods)),
       );
     }
 
@@ -83,11 +83,11 @@ export default defineEventHandler(async (event) => {
       lecturesQuery = lecturesQuery
         .innerJoin(
           tables.teacherAssignment,
-          eq(tables.lectures.id, tables.teacherAssignment.lectureId)
+          eq(tables.lectures.id, tables.teacherAssignment.lectureId),
         )
         .innerJoin(
           sql`teacher_names`,
-          eq(tables.teacherAssignment.teacherId, sql`teacher_names.id`)
+          eq(tables.teacherAssignment.teacherId, sql`teacher_names.id`),
         );
       const spacedTeacher = query.teacher.split('').join(' ');
       conditions.push(sql`teachers.name MATCH ${`"${spacedTeacher}"`}`);
@@ -121,7 +121,7 @@ export default defineEventHandler(async (event) => {
       .where(inArray(tables.teacherAssignment.lectureId, lectureIds))
       .leftJoin(
         tables.teacherAssignment,
-        eq(tables.teachers.id, tables.teacherAssignment.teacherId)
+        eq(tables.teachers.id, tables.teacherAssignment.teacherId),
       );
 
     const enhancedLectures = lectures.map((lecture) => ({

@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { grades, type Grade, type SearchQuery, quarters, type Quarter, type Period } from '~/schema/searchQuery';
+import {
+  grades,
+  type Grade,
+  type SearchQuery,
+  quarters,
+  type Quarter,
+  type Period,
+} from '~/schema/searchQuery';
 import InputText from 'primevue/inputtext';
 
 const days = ['月', '火', '水', '木', '金', '土', '日'];
@@ -65,15 +72,15 @@ const origins = ref([
   '教職科目',
   '英語科目',
   'リーダーシップ教育課程',
-  '第二外国語科目'
-])
+  '第二外国語科目',
+]);
 
 const props = defineProps<{
-  modelValue: SearchQuery
+  modelValue: SearchQuery;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: SearchQuery): void
+  (e: 'update:modelValue', value: SearchQuery): void;
 }>();
 
 const lectureTitle = ref<string>(props.modelValue?.title ?? '');
@@ -95,27 +102,29 @@ const setOrigin = debounce((newVal: string, query: SearchQuery) => {
 watch(origin, (newVal) => setOrigin(newVal, props.modelValue));
 const searchWithOrigin = (e: { query: string }) => {
   origins.value = origins.value.filter((origin) => origin.includes(e.query));
-  emit('update:modelValue', { ...props.modelValue, origin: e.query || undefined });
+  emit('update:modelValue', {
+    ...props.modelValue,
+    origin: e.query || undefined,
+  });
 };
 
 const selectedGrades = ref<string[]>(props.modelValue?.codeGrades ?? []);
 watch(selectedGrades, (newVal) => {
-  const newCodeGrade = newVal.length > 0 ? newVal as Grade[] : undefined;
+  const newCodeGrade = newVal.length > 0 ? (newVal as Grade[]) : undefined;
   emit('update:modelValue', { ...props.modelValue, codeGrades: newCodeGrade });
 });
 
 const selectedQuarters = ref<string[]>(props.modelValue?.quarters ?? []);
 watch(selectedQuarters, (newVal) => {
-  const newQuarters = newVal.length > 0 ? newVal as Quarter[] : undefined;
+  const newQuarters = newVal.length > 0 ? (newVal as Quarter[]) : undefined;
   emit('update:modelValue', { ...props.modelValue, quarters: newQuarters });
 });
 
 const selectedPeriods = ref<string[]>(props.modelValue?.periods ?? []);
 watch(selectedPeriods, (newVal) => {
-  const newPeriods = newVal.length > 0 ? newVal as Period[] : undefined;
+  const newPeriods = newVal.length > 0 ? (newVal as Period[]) : undefined;
   emit('update:modelValue', { ...props.modelValue, periods: newPeriods });
 });
-
 </script>
 
 <template>

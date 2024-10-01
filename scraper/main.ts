@@ -23,7 +23,7 @@ const getLectureUrls = async (): Promise<string[]> => {
 };
 
 const getLectureDetails = async (
-  urls: string[]
+  urls: string[],
 ): Promise<{ lectures: Lecture[]; fetchFailedUrls: string[] }> => {
   const lectures: Lecture[] = [];
   const fetchFailedUrls: string[] = [];
@@ -80,7 +80,7 @@ export const scrape = async () => {
 
     if (result.fetchFailedUrls.length > 0) {
       const newFetchingUrls = lectureUrls.filter(
-        (url) => !result.fetchFailedUrls.includes(url)
+        (url) => !result.fetchFailedUrls.includes(url),
       );
       Bun.write(lectureUrlsFile, JSON.stringify(newFetchingUrls));
     }

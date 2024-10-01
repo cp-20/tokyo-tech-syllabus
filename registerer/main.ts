@@ -11,7 +11,7 @@ export default {
   async fetch(
     req: Request,
     env: Env,
-    ctx: ExecutionContext
+    ctx: ExecutionContext,
   ): Promise<Response> {
     const path = new URL(req.url).pathname;
 

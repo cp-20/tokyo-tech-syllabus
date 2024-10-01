@@ -20,7 +20,7 @@ export const fetchContent = async (url: string): Promise<string | null> => {
   const textRes = await res.text();
 
   const content = new JSDOM(textRes).window.document.querySelector(
-    '#right-contents'
+    '#right-contents',
   )?.innerHTML;
 
   const minifiedRes = minify(content ?? textRes, {

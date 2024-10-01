@@ -1,6 +1,6 @@
 export const debounce = <T, F>(
   fn: (arg: T, arg2: F) => unknown,
-  wait: number
+  wait: number,
 ) => {
   let timer: Timer | null = null;
   return function (arg: T, arg2: F) {

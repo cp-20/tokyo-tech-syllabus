@@ -1,5 +1,5 @@
 import { parseLectureCode, parseLecturePlace } from './lectureParser';
-import { LectureSchema, type Lecture } from './schema';
+import { type Lecture, LectureSchema } from './schema';
 import { fetchContent, parseHTML } from './util';
 
 type FetchLectureDetailError = {
@@ -8,7 +8,7 @@ type FetchLectureDetailError = {
 };
 
 export const fetchLectureDetail = async (
-  url: string
+  url: string,
 ): Promise<
   | { success: true; data: Lecture }
   | { success: false; error: FetchLectureDetailError }
@@ -40,7 +40,7 @@ export const fetchLectureDetail = async (
       (el) => ({
         name: el.innerHTML.trim(),
         url: el.getAttribute('href') ?? '',
-      })
+      }),
     );
 
     const rawPlace = details.item(4).querySelector('dd')?.innerHTML.trim();
@@ -80,7 +80,7 @@ export const fetchLectureDetail = async (
 
     if (!result.success) {
       throw new Error(
-        `error parsing lecture detail\n\n${JSON.stringify(rawLecture)}`
+        `error parsing lecture detail\n\n${JSON.stringify(rawLecture)}`,
       );
     }
 
