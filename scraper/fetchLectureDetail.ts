@@ -25,7 +25,7 @@ export const fetchLectureDetail = async (
     const document = parseHTML(html);
 
     const rawTitle = document.querySelector('.page-title-area > h3')?.innerHTML;
-    if (!rawTitle) throw new Error('Failed to get title');
+    if (!rawTitle) throw new Error(`Failed to get title`);
     const title = rawTitle
       .split('　')
       .slice(1)
@@ -88,6 +88,7 @@ export const fetchLectureDetail = async (
 
     return { success: true, data: lecture };
   } catch (error) {
+    console.error(`Failed to parse lecture detail: ${url}`);
     console.error(error);
 
     return {

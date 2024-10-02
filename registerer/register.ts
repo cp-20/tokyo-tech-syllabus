@@ -11,7 +11,7 @@ const main = async () => {
   const textLectures = await Bun.file('scraper/assets/lectures.json').text();
   const rawLectures = JSON.parse(textLectures);
   const lectures = z.array(LectureSchema).parse(rawLectures);
-  const chunks = chunkArray(lectures, 100);
+  const chunks = chunkArray(lectures, parseInt(process.env.CHUNK_SIZE ?? '100'));
 
   for (const [i, chunk] of enumerate(chunks)) {
     const res = await fetch('http://localhost:33576', {

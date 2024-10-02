@@ -55,6 +55,11 @@ export default {
       }
     }
 
+    if (req.method === 'GET' && path === '/lectures') {
+      const lectures = await db.query.lectures.findMany({columns: {title: true}});
+      return Response.json({ lectures });
+    }
+
     return Response.json('Not found', { status: 404 });
   },
 };
